@@ -1,0 +1,34 @@
+{
+  "name": "tecspot",
+  "version": "1.0.0",
+  "description": "Sistema de reservas para el estacionamiento E6 del TEC",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon ./backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/GustavoCoutino/TecSpot.git"
+  },
+  "keywords": [
+    "TEC",
+    "PARK",
+    "SPOT",
+    "RESERVAS",
+    "APP"
+  ],
+  "author": "Alfonso García Yague, Gustavo Coutiño, Rafael Reyes, Santiago Carrizales",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GustavoCoutino/TecSpot/issues"
+  },
+  "homepage": "https://github.com/GustavoCoutino/TecSpot#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
