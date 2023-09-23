@@ -1,12 +1,10 @@
 const express = require("express");
-const pool = require("../db/db");
+const controller = require("./../controllers/controllers.js");
 
-const usuarioRouter = express.Router();
+const router = express.Router();
 
-usuarioRouter.post("/login", (req, res) => {
-  if (req.body.username === "admin" && req.body.password === "admin") {
-    res.send("Logged in");
-  }
-});
+router.post("/login", controller.login);
+router.post("/register", controller.register);
+router.post("/:id", controller.getUser);
 
-usuarioRouter.post("/register", (req, res) => {});
+module.exports = router;
