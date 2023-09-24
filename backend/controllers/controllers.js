@@ -5,7 +5,7 @@ const pool = new Pool({
   user: "postgres",
   host: "localhost",
   database: "TecSpotDB",
-  password: "contrasenapostgres",
+  password: "contrasena",
   port: 5432,
 });
 
@@ -85,27 +85,68 @@ exports.getUser = async (req, res) => {
 };
 // *********************************************************************************************************************
 // Rutas reserva
-exports.makeReservation = async (req, res) => {
-  const { matricula, id_estacionamiento, fecha, hora } = req.body;
+exports.createReserva = async (req, res) => {
+  const { id_estacionamiento } = req.params;
+  const { matricula, fecha, hora_inicio, hora_fin } = req.body;
 
   try {
-    const existingReservation = await pool.query(
-      "SELECT * FROM reservaciones WHERE matricula = $1 AND id_estacionamiento = $2 AND fecha = $3 AND hora = $4",
-      [matricula, id_estacionamiento, fecha, hora]
+    // Check if there is an existing reservation for this matricula
+    const existingReservaByMatricula = await pool.query(
+      "SELECT * FROM reservas WHERE matricula = $1",
+      [matricula]
     );
 
-    if (existingReservation.rows.length > 0) {
-      return res.status(400).json({ message: "Reservación ya existente" });
+    if (existingReservaByMatricula.rows.length > 0) {
+      return res
+        .status(400)
+        .json({ message: "Ya existe una reserva para esta matrícula" });
     }
 
-    await pool.query(
-      "INSERT INTO reservaciones (matricula, id_estacionamiento, fecha, hora) VALUES ($1, $2, $3, $4)",
-      [matricula, id_estacionamiento, fecha, hora]
+    // Check if there is an existing reservation for this parking space and time slot
+    const existingReserva = await pool.query(
+      "SELECT * FROM reservas WHERE id_estacionamiento = $1 AND fecha = $2 AND (($3 >= hora_inicio AND $3 < hora_fin) OR ($4 > hora_inicio AND $4 <= hora_fin))",
+      [id_estacionamiento, fecha, hora_inicio, hora_fin]
     );
 
-    res.status(201).json({ message: "Reservación exitosa" });
+    if (existingReserva.rows.length > 0) {
+      return res.status(400).json({
+        message:
+          "Este estacionamiento no está disponible en el horario especificado",
+      });
+    }
+
+    // Insert the reservation into the database
+    await pool.query(
+      "INSERT INTO reservas (matricula, id_estacionamiento, fecha, hora_inicio, hora_fin) VALUES ($1, $2, $3, $4, $5)",
+      [matricula, id_estacionamiento, fecha, hora_inicio, hora_fin]
+    );
+
+    res.status(201).json({ message: "Reserva creada exitosamente" });
   } catch (error) {
-    console.error("Error registrando la reservación:", error);
+    console.error("Error creando la reserva:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
+  }
+};
+
+exports.cancelarReserva = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Verificar si existe la reserva
+    const existingReserva = await pool.query(
+      "SELECT * FROM reservas WHERE id = $1",
+      [id]
+    );
+
+    if (existingReserva.rows.length === 0) {
+      return res.status(404).json({ message: "Reserva no encontrada" });
+    }
+
+    // Eliminar la reserva de la base de datos
+    await pool.query("DELETE FROM reservas WHERE id = $1", [id]);
+    res.status(201).json({ message: "Reserva cancelada exitosamente" });
+  } catch (error) {
+    console.error("Error eliminando la reserva:", error);
     res.status(500).json({ message: "Error interno del servidor" });
   }
 };

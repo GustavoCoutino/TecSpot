@@ -3,17 +3,26 @@ const controller = require("./../controllers/controllers.js");
 
 const router = express.Router();
 
+// Rutas autenticación
 router.post("/login", controller.login);
 router.post("/register", controller.register);
+
+// Rutas usuario
+router.get("/:matricula", controller.getUser);
+
+// Rutas estacionamiento
 router.get("/estacionamientos", controller.getAllEstacionamientos);
 router.get(
-  "/estacionamientos/disponibles",
+  "/estacionamientos-disponibles",
   controller.getAllEstacionamientosDisponibles
 );
 router.patch(
   "/estacionamientos/:id",
   controller.modificarEstadoEstacionamiento
 );
-router.get("/:matricula", controller.getUser);
+
+// Rutas reserva
+router.post("/reservas/:id_estacionamiento", controller.createReserva);
+router.delete("/reservas/:id", controller.cancelarReserva);
 
 module.exports = router;
