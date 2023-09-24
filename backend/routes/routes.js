@@ -5,6 +5,15 @@ const router = express.Router();
 
 router.post("/login", controller.login);
 router.post("/register", controller.register);
-router.post("/:id", controller.getUser);
+router.get("/estacionamientos", controller.getAllEstacionamientos);
+router.get(
+  "/estacionamientos/disponibles",
+  controller.getAllEstacionamientosDisponibles
+);
+router.patch(
+  "/estacionamientos/:id",
+  controller.modificarEstadoEstacionamiento
+);
+router.get("/:matricula", controller.getUser);
 
 module.exports = router;

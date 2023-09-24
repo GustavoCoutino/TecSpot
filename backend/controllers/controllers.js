@@ -5,10 +5,11 @@ const pool = new Pool({
   user: "postgres",
   host: "localhost",
   database: "TecSpotDB",
-  password: "contrasena",
+  password: "contrasenapostgres",
   port: 5432,
 });
 
+// Rutas usuarios
 exports.login = (req, res) => {
   const { matricula, contrasena } = req.body;
 
@@ -17,15 +18,15 @@ exports.login = (req, res) => {
     [matricula, contrasena],
     (error, results) => {
       if (error) {
-        console.error("Error executing query:", error);
-        res.status(500).json({ message: "Internal server error" });
+        console.error("Error ejecutando el query:", error);
+        res.status(500).json({ message: "Error interno del servidor" });
         return;
       }
 
       if (results.rows.length === 1) {
-        res.status(200).json({ message: "Logged in" });
+        res.status(200).json({ message: "Inicio de sesión exitoso" });
       } else {
-        res.status(401).json({ message: "Authentication failed" });
+        res.status(401).json({ message: "Autentiación fallida" });
       }
     }
   );
@@ -56,10 +57,10 @@ exports.register = async (req, res) => {
       [matricula, nombre, apellido_paterno, apellido_materno, email, contrasena]
     );
 
-    res.status(201).json({ message: "Registration successful" });
+    res.status(201).json({ message: "Registro exitoso" });
   } catch (error) {
-    console.error("Error registering user:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("Error registrando al usuario:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
@@ -73,12 +74,88 @@ exports.getUser = async (req, res) => {
     );
 
     if (user.rows.length === 0) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
     res.status(200).json(user.rows[0]);
   } catch (error) {
-    console.error("Error getting user:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("Error encontrando el usuario:", error);
+    res.status(500).json({ message: "Error interno" });
+  }
+};
+// *********************************************************************************************************************
+// Rutas reserva
+exports.makeReservation = async (req, res) => {
+  const { matricula, id_estacionamiento, fecha, hora } = req.body;
+
+  try {
+    const existingReservation = await pool.query(
+      "SELECT * FROM reservaciones WHERE matricula = $1 AND id_estacionamiento = $2 AND fecha = $3 AND hora = $4",
+      [matricula, id_estacionamiento, fecha, hora]
+    );
+
+    if (existingReservation.rows.length > 0) {
+      return res.status(400).json({ message: "Reservación ya existente" });
+    }
+
+    await pool.query(
+      "INSERT INTO reservaciones (matricula, id_estacionamiento, fecha, hora) VALUES ($1, $2, $3, $4)",
+      [matricula, id_estacionamiento, fecha, hora]
+    );
+
+    res.status(201).json({ message: "Reservación exitosa" });
+  } catch (error) {
+    console.error("Error registrando la reservación:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
+  }
+};
+
+//*********************************************************************************************************************
+// Rutas Estacionamiento
+
+exports.getAllEstacionamientos = async (req, res) => {
+  try {
+    const estacionamientos = await pool.query("SELECT * FROM estacionamientos");
+    res.status(200).json(estacionamientos.rows);
+  } catch (error) {
+    console.error("Error obteniendo los estacionamientos:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
+  }
+};
+
+exports.getAllEstacionamientosDisponibles = async (req, res) => {
+  try {
+    const estacionamientos = await pool.query(
+      "SELECT * FROM estacionamientos WHERE estado = true"
+    );
+    res.status(200).json(estacionamientos.rows);
+  } catch (error) {
+    console.error("Error obteniendo los estacionamientos:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
+  }
+};
+
+exports.modificarEstadoEstacionamiento = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const existingEstacionamiento = await pool.query(
+      "SELECT * FROM estacionamientos WHERE id = $1",
+      [id]
+    );
+
+    if (existingEstacionamiento.rows.length === 0) {
+      return res.status(404).json({ message: "Estacionamiento no encontrado" });
+    }
+
+    await pool.query("UPDATE estacionamientos SET estado = $1 WHERE id = $2", [
+      false,
+      id,
+    ]);
+
+    res.status(201).json({ message: "Estado modificado exitosamente" });
+  } catch (error) {
+    console.error("Error modificando el estado del estacionamiento:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
