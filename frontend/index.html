@@ -1,36 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Iniciar sesión</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Tec Spot</a>
-    <div class="navbar-nav">
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Tec Spot</a>
+      <div class="navbar-nav">
         <a class="nav-item nav-link" href="login.html">Iniciar sesión</a>
         <a class="nav-item nav-link" href="register.html">Registrarse</a>
         <a class="nav-item nav-link" href="getUser.html">Obtener Usuario</a>
-        <a class="nav-item nav-link" href="reserva.html">Reservar Estacionamiento</a>
-        <a class="nav-item nav-link" href="cancelarReserva.html">Cancelar Reserva</a>
-        <a class="nav-item nav-link" href="estacionamientos.html">Ver Estacionamientos</a>
-        <a class="nav-item nav-link" href="modificarEstado.html">Modificar Estado Estacionamiento</a>
-    </div>
-</nav>
+        <a class="nav-item nav-link" href="reserva.html"
+          >Reservar Estacionamiento</a
+        >
+        <a class="nav-item nav-link" href="cancelarReserva.html"
+          >Cancelar Reserva</a
+        >
+        <a class="nav-item nav-link" href="estacionamientos.html"
+          >Ver Estacionamientos</a
+        >
+        <a class="nav-item nav-link" href="modificarEstado.html"
+          >Modificar Estado Estacionamiento</a
+        >
+      </div>
+    </nav>
 
-<div class="container mt-5">
-    <h2>Iniciar sesión</h2>
-    <form id="loginForm" onsubmit="event.preventDefault(); login();">
-        <input type="text" id="matricula" placeholder="Matrícula">
-        <input type="password" id="contrasena" placeholder="Contraseña">
+    <div class="container mt-5">
+      <h2>Iniciar sesión</h2>
+      <form id="loginForm" onsubmit="event.preventDefault(); login();">
+        <input type="text" id="matricula" placeholder="Matrícula" />
+        <input type="password" id="contrasena" placeholder="Contraseña" />
         <button type="submit">Iniciar sesión</button>
-    </form>
-</div>
+      </form>
+    </div>
 
-<script src="app.js"></script>
-</body>
+    <script src="app.js"></script>
+  </body>
 </html>

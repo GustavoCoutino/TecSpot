@@ -4,8 +4,8 @@ const { Pool } = require("pg");
 const pool = new Pool({
   user: "postgres",
   host: "localhost",
-  database: "Tec Spot DB",
-  password: "contrasena",
+  database: "TecSpotDB",
+  password: "contrasenapostgres",
   port: 5432,
 });
 
@@ -189,8 +189,11 @@ exports.modificarEstadoEstacionamiento = async (req, res) => {
       return res.status(404).json({ message: "Estacionamiento no encontrado" });
     }
 
+    const estadoActual = existingEstacionamiento.rows[0].estado;
+    const nuevoEstado = !estadoActual;
+
     await pool.query("UPDATE estacionamientos SET estado = $1 WHERE id = $2", [
-      false,
+      nuevoEstado,
       id,
     ]);
 

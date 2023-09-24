@@ -102,7 +102,7 @@ function getAllEstacionamientos() {
     .then((response) => response.json())
     .then((data) => {
       // Aquí puedes mostrar la lista de estacionamientos
-      document.getElementById("estacionamientosList").innerText =
+      document.getElementById("estacionamientosListDisponibles").innerText =
         JSON.stringify(data);
     })
     .catch((error) => console.error("Error:", error));
