@@ -1,7 +1,7 @@
 {
   "name": "tecspot",
   "version": "1.0.0",
-  "description": "Sistema de reservas para el estacionamiento E6 del TEC",
+  "description": "Sistema de reservas para el estacionamiento E2 del TEC",
   "main": "server.js",
   "scripts": {
     "start": "nodemon ./backend/server.js"

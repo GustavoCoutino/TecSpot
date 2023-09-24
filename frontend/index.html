@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tec Spot</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Iniciar sesión</h2>
+        <form id="loginForm" onsubmit="event.preventDefault(); login();">
+            <input type="text" id="matricula" placeholder="Matrícula">
+            <input type="password" id="contrasena" placeholder="Contraseña">
+            <button type="submit">Iniciar sesión</button>
+        </form>
+    </div>
+
+        <h2>Registro</h2>
+        <form id="registerForm" onsubmit="event.preventDefault(); register();">
+            <input type="text" id="reg_matricula" placeholder="Matrícula">
+            <input type="text" id="nombre" placeholder="Nombre">
+            <input type="text" id="apellido_paterno" placeholder="Apellido Paterno">
+            <input type="text" id="apellido_materno" placeholder="Apellido Materno">
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="reg_contrasena" placeholder="Contraseña">
+            <button type="submit">Registrarse</button>
+        </form>
+
+        <h2>Obtener Usuario</h2>
+        <form id="getUserForm" onsubmit="event.preventDefault(); getUser();">
+            <input type="text" id="get_matricula" placeholder="Matrícula">
+            <button type="submit">Buscar Usuario</button>
+        </form>
+
+        <h2>Reservar Estacionamiento</h2>
+        <form id="reservaForm" onsubmit="event.preventDefault(); createReserva();">
+            <input type="text" id="reserva_matricula" placeholder="Matrícula">
+            <input type="text" id="id_estacionamiento" placeholder="ID Estacionamiento">
+            <input type="date" id="fecha">
+            <input type="time" id="hora_inicio" placeholder="Hora Inicio">
+            <input type="time" id="hora_fin" placeholder="Hora Fin">
+            <button type="submit">Reservar</button>
+        </form>
+
+        <h2>Cancelar Reserva</h2>
+        <form id="cancelarReservaForm" onsubmit="event.preventDefault(); cancelarReserva();">
+            <input type="text" id="reserva_id" placeholder="ID Reserva">
+            <button type="submit">Cancelar Reserva</button>
+        </form>
+        
+        <h2>Estacionamientos</h2>
+        <button onclick="getAllEstacionamientos();">Mostrar Todos los Estacionamientos</button>
+        <div id="estacionamientosList"></div>
+
+        <h2>Estacionamientos Disponibles</h2>
+        <button onclick="getAllEstacionamientosDisponibles();">Mostrar Estacionamientos Disponibles</button>
+        <div id="estacionamientosDisponiblesList"></div>
+
+        <h2>Modificar Estado Estacionamiento</h2>
+        <form id="modificarEstadoForm" onsubmit="event.preventDefault(); modificarEstadoEstacionamiento();">
+            <input type="text" id="estado_estacionamiento_id" placeholder="ID Estacionamiento">
+            <button type="submit">Modificar Estado</button>
+        </form>
+
+
+
+
+<div id="userDetails"></div>
+
+
+    <script src="app.js"></script>
+</body>
+</html>
