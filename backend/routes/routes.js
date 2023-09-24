@@ -7,9 +7,6 @@ const router = express.Router();
 router.post("/login", controller.login);
 router.post("/register", controller.register);
 
-// Rutas usuario
-router.get("/:matricula", controller.getUser);
-
 // Rutas estacionamiento
 router.get("/estacionamientos", controller.getAllEstacionamientos);
 router.get(
@@ -24,5 +21,8 @@ router.patch(
 // Rutas reserva
 router.post("/reservas/:id_estacionamiento", controller.createReserva);
 router.delete("/reservas/:id", controller.cancelarReserva);
+
+// Rutas usuario
+router.get("/:matricula", controller.getUser);
 
 module.exports = router;

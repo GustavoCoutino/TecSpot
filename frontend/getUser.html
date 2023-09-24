@@ -1,18 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>Get User</title>
-</head>
-<body>
-<div class="container mt-5">
-    <h2>Obtener Usuario</h2>
-    <form id="getUserForm" onsubmit="event.preventDefault(); getUser();">
-        <input type="text" id="get_matricula" placeholder="Matrícula" class="form-control">
-        <button type="submit" class="btn btn-primary">Buscar Usuario</button>
-    </form>
-    <div id="userDetails" class="mt-4"></div>
-</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Obtener Usuario</title>
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="index.html">Tec Spot</a>
+      <div class="navbar-nav">
+        <a class="nav-item nav-link" href="register.html">Registrarse</a>
+        <a class="nav-item nav-link active" href="getUser.html"
+          >Obtener Usuario</a
+        >
+        <a class="nav-item nav-link" href="reserva.html"
+          >Reservar Estacionamiento</a
+        >
+        <a class="nav-item nav-link" href="cancelarReserva.html"
+          >Cancelar Reserva</a
+        >
+        <a class="nav-item nav-link" href="estacionamientos.html"
+          >Ver Estacionamientos</a
+        >
+        <a class="nav-item nav-link" href="modificarEstado.html"
+          >Modificar Estado Estacionamiento</a
+        >
+      </div>
+    </nav>
 
-<script src="app.js"></script>
-</body>
+    <div class="container mt-5">
+      <h2>Obtener Usuario</h2>
+      <form id="getUserForm" onsubmit="event.preventDefault(); getUser();">
+        <input
+          type="text"
+          id="get_matricula"
+          placeholder="Matrícula"
+          class="form-control mb-2"
+        />
+        <button type="submit" class="btn btn-primary">Buscar Usuario</button>
+      </form>
+      <div id="userDetails" class="mt-4"></div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
 </html>
