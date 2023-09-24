@@ -14,6 +14,7 @@ function login() {
     .then((data) => {
       if (data.message === "Inicio de sesión exitoso") {
         // Haz algo después del inicio de sesión exitoso
+        window.location.href = "estacionamientos.html";
       } else {
         // Mostrar mensaje de error
       }
@@ -41,6 +42,7 @@ function register() {
   })
     .then((response) => response.json())
     .then((data) => {
+      window.location.href = "estacionamientos.html";
       // Aquí puedes manejar la respuesta, por ejemplo mostrar un mensaje
     })
     .catch((error) => console.error("Error:", error));
@@ -53,8 +55,15 @@ function getUser() {
   fetch("/" + matricula)
     .then((response) => response.json())
     .then((data) => {
-      // Aquí puedes mostrar los detalles del usuario, por ejemplo:
-      document.getElementById("userDetails").innerText = JSON.stringify(data);
+      let userDetails = `Matrícula: ${data.matricula}\nNombre: ${data.nombre}\nApellido Paterno: ${data.apellido_paterno}\nApellido Materno: ${data.apellido_materno}\nEmail: ${data.email}`;
+
+      if (data.reservation) {
+        userDetails += `\n\nEl usuario tiene una reservación\nID de Estacionamiento: ${data.reservation.id_estacionamiento}\nFecha: ${data.reservation.fecha}\nHora de Inicio: ${data.reservation.hora_inicio}\nHora de Fin: ${data.reservation.hora_fin}`;
+      } else {
+        userDetails += "\n\nEl usuario no tiene una reservación";
+      }
+
+      document.getElementById("userDetails").innerText = userDetails;
     })
     .catch((error) => console.error("Error:", error));
 }
@@ -96,40 +105,74 @@ function cancelarReserva() {
     .catch((error) => console.error("Error:", error));
 }
 
-// Función para Obtener Todos los Estacionamientos
+function formatDataAsTable(data) {
+  const table = document.createElement("table");
+  table.className = "table table-bordered";
+
+  const thead = document.createElement("thead");
+  const headerRow = document.createElement("tr");
+
+  for (const key in data[0]) {
+    const th = document.createElement("th");
+    if (key === "id") {
+      th.textContent = "Numero de estacionamiento";
+    } else if (key === "estado") {
+      th.textContent = "Estado";
+    } else {
+      th.textContent = key;
+    }
+    headerRow.appendChild(th);
+  }
+
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
+
+  const tbody = document.createElement("tbody");
+
+  data.forEach((item) => {
+    const row = document.createElement("tr");
+
+    for (const key in item) {
+      const cell = document.createElement("td");
+      const cellValue =
+        key === "estado" ? (item[key] ? "Libre" : "Ocupado") : item[key];
+      cell.textContent = cellValue;
+      row.appendChild(cell);
+    }
+
+    tbody.appendChild(row);
+  });
+
+  table.appendChild(tbody);
+  return table;
+}
+
 function getAllEstacionamientos() {
   fetch("/estacionamientos")
     .then((response) => response.json())
     .then((data) => {
-      // Aquí puedes mostrar la lista de estacionamientos
-      document.getElementById("estacionamientosListDisponibles").innerText =
-        JSON.stringify(data);
+      const estacionamientosListDisponibles = document.getElementById(
+        "estacionamientosListDisponibles"
+      );
+      estacionamientosListDisponibles.innerHTML = "";
+
+      const table = formatDataAsTable(data);
+      estacionamientosListDisponibles.appendChild(table);
     })
     .catch((error) => console.error("Error:", error));
 }
 
-// Función para Obtener Estacionamientos Disponibles
 function getAllEstacionamientosDisponibles() {
   fetch("/estacionamientos-disponibles")
     .then((response) => response.json())
     .then((data) => {
-      // Mostrar lista de estacionamientos disponibles
-      document.getElementById("estacionamientosListDisponibles").innerText =
-        JSON.stringify(data);
-    })
-    .catch((error) => console.error("Error:", error));
-}
+      const estacionamientosListDisponibles = document.getElementById(
+        "estacionamientosListDisponibles"
+      );
+      estacionamientosListDisponibles.innerHTML = ""; // Clear previous data
 
-// Función para Modificar Estado Estacionamiento
-function modificarEstadoEstacionamiento() {
-  const id = document.getElementById("estado_estacionamiento_id").value;
-
-  fetch("/estacionamientos/" + id, {
-    method: "PATCH",
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      // Manejar respuesta
+      const table = formatDataAsTable(data);
+      estacionamientosListDisponibles.appendChild(table);
     })
     .catch((error) => console.error("Error:", error));
 }

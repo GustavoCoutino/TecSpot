@@ -5,7 +5,7 @@ const pool = new Pool({
   user: "postgres",
   host: "localhost",
   database: "TecSpotDB",
-  password: "fasdasd",
+  password: "contrasenapostgres",
   port: 5432,
 });
 
@@ -77,7 +77,17 @@ exports.getUser = async (req, res) => {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    res.status(200).json(user.rows[0]);
+    const matriculaFK = user.rows[0].matricula;
+
+    const reservation = await pool.query(
+      "SELECT * FROM reservas WHERE matricula = $1",
+      [matriculaFK]
+    );
+
+    const userData = user.rows[0];
+    userData.reservation =
+      reservation.rows.length > 0 ? reservation.rows[0] : null;
+    res.status(200).json(userData);
   } catch (error) {
     console.error("Error encontrando el usuario:", error);
     res.status(500).json({ message: "Error interno" });
