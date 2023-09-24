@@ -5,7 +5,7 @@ const pool = new Pool({
   user: "postgres",
   host: "localhost",
   database: "TecSpotDB",
-  password: "contrasenapostgres",
+  password: "contrasena",
   port: 5432,
 });
 
@@ -125,10 +125,14 @@ exports.createReserva = async (req, res) => {
       });
     }
 
-    // Insert the reservation into the database
     await pool.query(
       "INSERT INTO reservas (matricula, id_estacionamiento, fecha, hora_inicio, hora_fin) VALUES ($1, $2, $3, $4, $5)",
       [matricula, id_estacionamiento, fecha, hora_inicio, hora_fin]
+    );
+
+    await pool.query(
+      "UPDATE estacionamientos SET estado = false WHERE id = $1",
+      [id_estacionamiento]
     );
 
     res.status(201).json({ message: "Reserva creada exitosamente" });
@@ -154,6 +158,11 @@ exports.cancelarReserva = async (req, res) => {
 
     // Eliminar la reserva de la base de datos
     await pool.query("DELETE FROM reservas WHERE id = $1", [id]);
+    const idEstacionamiento = existingReserva.rows[0].id_estacionamiento;
+    await pool.query(
+      "UPDATE estacionamientos SET estado = true WHERE id = $1",
+      [idEstacionamiento]
+    );
     res.status(201).json({ message: "Reserva cancelada exitosamente" });
   } catch (error) {
     console.error("Error eliminando la reserva:", error);
