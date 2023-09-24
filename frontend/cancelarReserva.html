@@ -35,7 +35,7 @@
       <h2>Cancelar Reserva</h2>
       <form
         id="cancelarReservaForm"
-        onsubmit="event.preventDefault(); cancelarReserva();"
+        onsubmit="event.preventDefault(); cancelarReserva(); clean();"
       >
         <input
           type="text"
@@ -45,8 +45,16 @@
         />
         <button type="submit" class="btn btn-danger">Cancelar Reserva</button>
       </form>
+      <div id="message" class="mt-3"></div>
     </div>
 
     <script src="app.js"></script>
+    <script>
+      function clean() {
+        document.getElementById("reserva_id").value = "";
+        const messageDiv = document.getElementById("message");
+        messageDiv.textContent = "Reserva cancelada exitosamente";
+      }
+    </script>
   </body>
 </html>

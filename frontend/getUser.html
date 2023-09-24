@@ -35,7 +35,10 @@
 
     <div class="container mt-5">
       <h2>Obtener Usuario</h2>
-      <form id="getUserForm" onsubmit="event.preventDefault(); getUser();">
+      <form
+        id="getUserForm"
+        onsubmit="event.preventDefault(); getUser(); clean();"
+      >
         <input
           type="text"
           id="get_matricula"
@@ -45,8 +48,18 @@
         <button type="submit" class="btn btn-primary">Buscar Usuario</button>
       </form>
       <div id="userDetails" class="mt-4"></div>
+      <div id="message" class="mt-3"></div>
     </div>
 
     <script src="app.js"></script>
+
+    <script>
+      function clean() {
+        document.getElementById("get_matricula").value = "";
+        const messageDiv = document.getElementById("message");
+        messageDiv.textContent =
+          "Información del usuario obtenida exitosamente";
+      }
+    </script>
   </body>
 </html>

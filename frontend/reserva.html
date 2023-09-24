@@ -35,7 +35,7 @@
       <h2>Reservar Estacionamiento</h2>
       <form
         id="reservaForm"
-        onsubmit="event.preventDefault(); createReserva();"
+        onsubmit="event.preventDefault(); createReserva(); clean();"
       >
         <input
           type="text"
@@ -64,8 +64,22 @@
         />
         <button type="submit" class="btn btn-primary">Reservar</button>
       </form>
+      <div id="message" class="mt-3"></div>
     </div>
 
     <script src="app.js"></script>
+    <script>
+      function clean() {
+        document.getElementById("reserva_matricula").value = "";
+        document.getElementById("id_estacionamiento").value = "";
+        document.getElementById("fecha").value = "";
+        document.getElementById("hora_inicio").value = "";
+        document.getElementById("hora_fin").value = "";
+
+        const messageDiv = document.getElementById("message");
+        messageDiv.textContent =
+          "Reserva completada. Todos los campos han sido borrados.";
+      }
+    </script>
   </body>
 </html>
