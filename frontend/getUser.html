@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Get User</title>
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Obtener Usuario</h2>
+    <form id="getUserForm" onsubmit="event.preventDefault(); getUser();">
+        <input type="text" id="get_matricula" placeholder="Matrícula" class="form-control">
+        <button type="submit" class="btn btn-primary">Buscar Usuario</button>
+    </form>
+    <div id="userDetails" class="mt-4"></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

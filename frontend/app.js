@@ -1,7 +1,27 @@
-// Función para Login (ya la habíamos definido anteriormente)
+// Ejemplo de función para hacer login
 function login() {
-    //... (como se definió anteriormente)
-}
+    const matricula = document.getElementById('matricula').value;
+    const contrasena = document.getElementById('contrasena').value;
+
+    fetch('/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ matricula, contrasena })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message === "Inicio de sesión exitoso") {
+            // Haz algo después del inicio de sesión exitoso
+        } else {
+            // Mostrar mensaje de error
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+};
 
 // Función para Registro
 function register() {

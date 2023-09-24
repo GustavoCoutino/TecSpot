@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar sesión</title>
+    <title>Registrarse</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Tec Spot</a>
+    <a class="navbar-brand" href="index.html">Tec Spot</a>
     <div class="navbar-nav">
-        <a class="nav-item nav-link" href="login.html">Iniciar sesión</a>
         <a class="nav-item nav-link" href="register.html">Registrarse</a>
         <a class="nav-item nav-link" href="getUser.html">Obtener Usuario</a>
         <a class="nav-item nav-link" href="reserva.html">Reservar Estacionamiento</a>
@@ -23,11 +22,15 @@
 </nav>
 
 <div class="container mt-5">
-    <h2>Iniciar sesión</h2>
-    <form id="loginForm" onsubmit="event.preventDefault(); login();">
-        <input type="text" id="matricula" placeholder="Matrícula">
-        <input type="password" id="contrasena" placeholder="Contraseña">
-        <button type="submit">Iniciar sesión</button>
+    <h2>Registro</h2>
+    <form id="registerForm" onsubmit="event.preventDefault(); register();">
+        <input type="text" id="reg_matricula" placeholder="Matrícula" class="form-control mb-2">
+        <input type="text" id="nombre" placeholder="Nombre" class="form-control mb-2">
+        <input type="text" id="apellido_paterno" placeholder="Apellido Paterno" class="form-control mb-2">
+        <input type="text" id="apellido_materno" placeholder="Apellido Materno" class="form-control mb-2">
+        <input type="email" id="email" placeholder="Email" class="form-control mb-2">
+        <input type="password" id="reg_contrasena" placeholder="Contraseña" class="form-control mb-2">
+        <button type="submit" class="btn btn-primary">Registrarse</button>
     </form>
 </div>
 
